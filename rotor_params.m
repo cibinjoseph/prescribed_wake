@@ -7,7 +7,7 @@ a = 2*pi;%5.74;          % d_Cl/d_alpha in radians
 rho = 1.2;               % in kg/m3
 root_cut = 0.05;
 tip_cut = 0.95;      % For accounting tip loss
-vel_climb = 25.0;
+vel_climb = 0.0;
 vel_forward = 0.0;
 
 theta=15*pi/180;
