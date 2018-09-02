@@ -60,7 +60,7 @@ end
 if (mu<eps)
   wake_skew=pi/2;
 else
-  wake_skew=atan(lam/mu);
+  wake_skew=atan(-lam/mu);   % Check this minus sign
 end
 
 psi_vec=linspace(0,2*pi,nx);
