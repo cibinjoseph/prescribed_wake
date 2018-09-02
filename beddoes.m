@@ -1,6 +1,6 @@
 #!/usr/bin/octave
 
-clear; clc;
+clear; clc; clf;
 % Beddoes model
 
 % With collective ONLY
@@ -13,33 +13,49 @@ rotor_params;
 nx = 50;                    % No. of stations along blade
 
 % Initialization
-% Equi-spaced
 r_bar = linspace(root_cut,tip_cut,nx);
 dr_bar = r_bar(2)-r_bar(1);
 
 calc_BEMT_inflow;
 
-%plot(r_bar,lam);
-grid on;
-xlabel('Normalized Radius');
-ylabel('Inflow Ratio');
+% Forward velocity consideration
+lam=mean(lam_vec);
+
+res=10;
+iter=1;
+plot(iter,lam,'o')
+hold on;
+
+while (res>0.0005)
+  iter=iter+1;
+
+  CT = sum(4*lam*(lam-lam_c)*r_bar.*dr_bar);
+  f_lam=lam-mu*tan(alf_disk)-0.5*CT*(mu*mu+lam*lam)^(-0.5)-lam_c*cos(alf_disk);
+  f_lam_prime=1+0.5*CT*(mu*mu+lam*lam)^(-1.5)*lam;
+
+  lam_prev=lam;
+  lam=lam-(f_lam)/(f_lam_prime);
+  res=abs((lam-lam_prev)/lam);
+
+  plot(iter,lam,'o')
+end
+
+return;
 
 % Using Momentum theory
 ct_vec = 4*lam.*(lam-lam_c).*r_bar.*dr_bar;
-format long;
-CT_MT = sum(ct_vec);
+%format long;
+CT = sum(ct_vec);
 
-% Using BEMT
-%ct_vec = 0.5*sol*a.*dr_bar.*(r_bar.^2).*alf;
-%CT_BEMT = sum(ct_vec);
-% plot(r_bar,ct_vec.*(rho*pi*R*R*(R*Om)^2))
 
-Thrust=CT_MT*(rho*pi*R*R*(R*Om)^2);
+% Beddoes inflow approximation
+
+%wake_skew=
 
 % Wake markers
 nrev=2;
 nfil=100;
-psi=linspace(0,nrev*2*pi,nfil)
+psi=linspace(0,nrev*2*pi,nfil);
 
 xw=R*cos(psi);
 yw=R*sin(psi);
