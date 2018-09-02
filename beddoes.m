@@ -22,12 +22,19 @@ dr_bar = r_bar(2)-r_bar(1);
 calc_BEMT_inflow;
 
 % Forward velocity consideration
-lam=mean(lam_vec);
+%lam=mean(lam_vec);
+poly=[1,sol*a/16,-sol*a/24*theta];
+lam_roots=roots(poly);
+lam=lam_roots(1);
+if (lam_roots(1)<0)
+  lam=lam_roots(2);
+end
+disp(lam)
 
 res=10;
 iter=1;
-plot(iter,lam,'o')
-hold on;
+%plot(iter,lam,'o')
+%hold on;
 
 while (res>tol && iter<iter_max)
   iter=iter+1;
@@ -40,15 +47,14 @@ while (res>tol && iter<iter_max)
   lam=lam-(f_lam)/(f_lam_prime);
   res=abs((lam-lam_prev)/lam);
 
-  plot(iter,lam,'o')
+  %plot(iter,lam,'o')
 end
 
 if (iter==iter_max)
   disp('Warning: Max iterations reached')
   res
+  return;
 end
-
-return;
 
 % Beddoes inflow approximation
 if (mu<eps)
@@ -59,7 +65,7 @@ end
 
 psi_vec=linspace(0,2*pi,nx);
 [R_BAR,PSI]=meshgrid(r_bar,psi_vec);
-E_val=wake_skew/2;
+E_val=(pi/2-wake_skew)/2;
 X_BAR=R_BAR.*cos(PSI);
 Y_BAR=R_BAR.*sin(PSI);
 
@@ -67,8 +73,9 @@ lam_beddoes=lam*(1+E_val*X_BAR-E_val*abs(Y_BAR.^3));
 surf(X_BAR,Y_BAR,lam_beddoes);
 xlabel('X');
 ylabel('Y');
+grid on;
 
-return
+return;
 
 % Wake markers
 nrev=2;
