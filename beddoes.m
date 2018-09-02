@@ -40,17 +40,8 @@ while (res>0.0005)
   plot(iter,lam,'o')
 end
 
-return;
-
-% Using Momentum theory
-ct_vec = 4*lam.*(lam-lam_c).*r_bar.*dr_bar;
-%format long;
-CT = sum(ct_vec);
-
-
 % Beddoes inflow approximation
-
-%wake_skew=
+wake_skew=atan(lam/mu);
 
 % Wake markers
 nrev=2;
