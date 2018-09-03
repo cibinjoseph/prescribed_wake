@@ -9,7 +9,7 @@ global root_cut = 0.0;         % in r/R
 global tip_cut = 1.0;          % For accounting tip loss
 vel_forward = 10.0;
 global alf_disk = 0*pi/180;
-theta=8*pi/180;
+global theta=8*pi/180;
 
 % Calculated Rotor Parameters
 sol = Nb*c/(pi*R);
