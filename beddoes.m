@@ -1,51 +1,24 @@
 #!/usr/bin/octave
 
 % Beddoes Prescribed Wake Model
+% Assumptions
+% 1. No climb velocity
+% 2. No disk tilt
+
 clear; clc; %clf;
 
 rotor_params;
 
-% Solver parameters 
-nx = 50;                    % No. of stations along blade
-TolX=0.0005;
-MaxIter=100;
-relax=0.90;
-
-% Initial value of mean inflow from momentum theory at hover
+% Mean inflow from momentum theory at hover
 poly=[1,sol*a/8,-sol*a/12*theta*(tip_cut^3-root_cut^3)/(tip_cut^2-root_cut^2)];
 lam_roots=roots(poly);
-lam_init=lam_roots(1);
+lam_hover=lam_roots(1);
 if (lam_roots(1)<0)
-  lam_init=lam_roots(2);
+  lam_hover=lam_roots(2);
 end
 
-options=optimset('TolX',TolX,'MaxIter',MaxIter);
-[lam,fval,info,output]=fsolve(@lam_func,lam_init,options)
-
-res=1;
-iter=1;
-% Using fsolve to solve for actual mean inflow
-while (res>TolX && iter<MaxIter)
-  iter=iter+1;
-
-  dCT=@(r_bar)4*lam*(lam-lam_c)*r_bar;
-  CT=quad(dCT,root_cut,tip_cut);
-  f_lam=lam-mu*tan(alf_disk)-0.5*CT*(mu*mu+lam*lam)^(-0.5)+lam_c*cos(alf_disk);
-  f_lam_prime=1+0.5*CT*(mu*mu+lam*lam)^(-1.5)*lam;
-
-  lam_prev=lam;
-  lam=lam-(f_lam)/(f_lam_prime);
-  lam=relax*lam_prev+(1-relax)*lam;
-  res=abs((lam-lam_prev)/lam);
-
-  %plot(iter,lam,'o')
-end
-
-if (iter==MaxIter)
-  disp('Warning: Max iterations reached')
-  res
-  return;
-end
+lam=(sqrt((0.25*(mu/lam_hover)^4)+1)-0.5*(mu/lam_hover)^2)^0.5;
+lam=lam*lam_hover;
 
 return;
 
