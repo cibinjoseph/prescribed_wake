@@ -1,5 +1,3 @@
-#!/usr/bin/octave
-
 % Beddoes Prescribed Wake Model
 % Assumptions
 % 1. No climb velocity
@@ -21,11 +19,18 @@ end
 lam=(sqrt((0.25*(mu/lam_hover)^4)+1)-0.5*(mu/lam_hover)^2)^0.5;
 lam=lam*lam_hover;
 
-lam=lam+mu*tan(alf_disk);
-disp([lam_hover lam])
+lam_init=lam+mu*tan(alf_disk);
 
-options=optimset('TolX',0.0005,'MaxIter',100);
-[lam,fval,info,output]=fsolve(@lam_func,lam,options)
+
+options=optimset('TolX',0.0005,'MaxIter',100,'Display','off');
+[lam,fval,info,output]=fsolve(@lam_func,lam,options);
+
+if (info==1)
+  fprintf('CONVERGED SOLUTION OBTAINED IN %4i ITERATIONS\n',output.iterations);
+  disp([lam_hover lam_init lam])
+else
+  disp('ERROR: CONVERGED SOLUTION NOT OBTAINED');
+end
 
 return;
 
