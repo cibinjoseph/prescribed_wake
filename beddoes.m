@@ -1,7 +1,6 @@
 % Beddoes Prescribed Wake Model
 % Assumptions
 % 1. No climb velocity
-% 2. No disk tilt
 
 clear; clc; %clf;
 
@@ -15,21 +14,20 @@ if (lam_roots(1)<0)
   lam_hover=lam_roots(2);
 end
 
-% Actual solution for zero disk tilt
-lam=(sqrt((0.25*(mu/lam_hover)^4)+1)-0.5*(mu/lam_hover)^2)^0.5;
-lam=lam*lam_hover;
+% Actual solution for zero disk tilt used as initial guess value
+lam_i=lam_hover*(sqrt((0.25*(mu/lam_hover)^4)+1)-0.5*(mu/lam_hover)^2)^0.5;
+lam_init=lam_i+mu*tan(alf_disk);
 
-lam_init=lam+mu*tan(alf_disk);
-
-
+% Solve non-linear inflow equation using CT computed from BET
 options=optimset('TolX',0.0005,'MaxIter',100,'Display','off');
-[lam,fval,info,output]=fsolve(@lam_func,lam,options);
+[lam,fval,info,output]=fsolve(@lam_func,lam_init,options);
 
 if (info==1)
   fprintf('CONVERGED SOLUTION OBTAINED IN %4i ITERATIONS\n',output.iterations);
   disp([lam_hover lam_init lam])
 else
   disp('ERROR: CONVERGED SOLUTION NOT OBTAINED');
+  return;
 end
 
 return;

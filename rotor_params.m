@@ -9,8 +9,8 @@ a = 2*pi;%5.74;          % d_Cl/d_alpha in radians
 rho = 1.2;               % in kg/m3
 root_cut = 0.05;         % in r/R
 tip_cut = 0.95;          % For accounting tip loss
-vel_forward = 25.0;
-alf_disk = 0*pi/180;
+vel_forward = 10.0;
+alf_disk = 2*pi/180;
 theta=8*pi/180;
 
 % Calculated Rotor Parameters
