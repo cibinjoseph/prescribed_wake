@@ -17,8 +17,15 @@ if (lam_roots(1)<0)
   lam_hover=lam_roots(2);
 end
 
+% Actual solution for zero disk tilt
 lam=(sqrt((0.25*(mu/lam_hover)^4)+1)-0.5*(mu/lam_hover)^2)^0.5;
 lam=lam*lam_hover;
+
+lam=lam+mu*tan(alf_disk);
+disp([lam_hover lam])
+
+options=optimset('TolX',0.0005,'MaxIter',100);
+[lam,fval,info,output]=fsolve(@lam_func,lam,options)
 
 return;
 
