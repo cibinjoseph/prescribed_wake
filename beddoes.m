@@ -1,6 +1,6 @@
 #!/usr/bin/octave
 
-clear; clc; clf;
+clear; clc; %clf;
 % Beddoes model
 
 % With collective ONLY
@@ -15,15 +15,11 @@ tol=0.0005;
 iter_max=100;
 
 % Initialization
-r_bar = linspace(root_cut,tip_cut,nx);
-dr_bar = r_bar(2)-r_bar(1);
-
-% Change to momentum theory computed value
-calc_BEMT_inflow;
+%r_bar = linspace(root_cut,tip_cut,nx);
+%dr_bar = r_bar(2)-r_bar(1);
 
 % Forward velocity consideration
-%lam=mean(lam_vec);
-poly=[1,sol*a/16,-sol*a/24*theta];
+poly=[1,sol*a/8,-sol*a/12*theta*(tip_cut^3-root_cut^3)/(tip_cut^2-root_cut^2)];
 lam_roots=roots(poly);
 lam=lam_roots(1);
 if (lam_roots(1)<0)
@@ -33,21 +29,22 @@ disp(lam)
 
 res=10;
 iter=1;
-%plot(iter,lam,'o')
-%hold on;
+plot(iter,lam,'o')
+hold on;
 
 while (res>tol && iter<iter_max)
   iter=iter+1;
 
-  CT = sum(4*lam*(lam-lam_c)*r_bar.*dr_bar);
-  f_lam=lam-mu*tan(alf_disk)-0.5*CT*(mu*mu+lam*lam)^(-0.5)-lam_c*cos(alf_disk);
+  dCT=@(r_bar)4*lam*(lam-lam_c)*r_bar;
+  CT=quad(dCT,root_cut,tip_cut);
+  f_lam=lam-mu*tan(alf_disk)-0.5*CT*(mu*mu+lam*lam)^(-0.5)+lam_c*cos(alf_disk);
   f_lam_prime=1+0.5*CT*(mu*mu+lam*lam)^(-1.5)*lam;
 
   lam_prev=lam;
   lam=lam-(f_lam)/(f_lam_prime);
   res=abs((lam-lam_prev)/lam);
 
-  %plot(iter,lam,'o')
+  plot(iter,lam,'o')
 end
 
 if (iter==iter_max)
