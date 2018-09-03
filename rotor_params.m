@@ -5,16 +5,16 @@ Nb = 1;
 Om_rpm = 600;            % in rpm
 a = 2*pi;%5.74;          % d_Cl/d_alpha in radians
 rho = 1.2;               % in kg/m3
-root_cut = 0.05;         % in r/R
-tip_cut = 0.95;          % For accounting tip loss
+global root_cut = 0.0;         % in r/R
+global tip_cut = 1.0;          % For accounting tip loss
 vel_climb = 0.0;
-vel_forward = 0.0;
+vel_forward = 50.0;
 
 theta=8*pi/180;
-alf_disk=0*pi/180;
+global alf_disk=0*pi/180;
 
 % Calculated Rotor Parameters
 sol = Nb*c/(pi*R);
 Om = Om_rpm*pi/30;
-lam_c = vel_climb/(R*Om);
-mu = vel_forward/(R*Om)*cos(alf_disk);
+global lam_c = vel_climb/(R*Om);
+global mu = vel_forward/(R*Om)*cos(alf_disk);

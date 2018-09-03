@@ -1,38 +1,31 @@
 #!/usr/bin/octave
 
+% Beddoes Prescribed Wake Model
 clear; clc; %clf;
-% Beddoes model
-
-% With collective ONLY
-% No twist, coning
-% Hover flight
 
 rotor_params;
 
 % Solver parameters 
 nx = 50;                    % No. of stations along blade
-tol=0.0005;
-iter_max=100;
+TolX=0.0005;
+MaxIter=100;
+relax=0.90;
 
-% Initialization
-%r_bar = linspace(root_cut,tip_cut,nx);
-%dr_bar = r_bar(2)-r_bar(1);
-
-% Forward velocity consideration
+% Initial value of mean inflow from momentum theory at hover
 poly=[1,sol*a/8,-sol*a/12*theta*(tip_cut^3-root_cut^3)/(tip_cut^2-root_cut^2)];
 lam_roots=roots(poly);
-lam=lam_roots(1);
+lam_init=lam_roots(1);
 if (lam_roots(1)<0)
-  lam=lam_roots(2);
+  lam_init=lam_roots(2);
 end
-disp(lam)
 
-res=10;
+options=optimset('TolX',TolX,'MaxIter',MaxIter);
+[lam,fval,info,output]=fsolve(@lam_func,lam_init,options)
+
+res=1;
 iter=1;
-plot(iter,lam,'o')
-hold on;
-
-while (res>tol && iter<iter_max)
+% Using fsolve to solve for actual mean inflow
+while (res>TolX && iter<MaxIter)
   iter=iter+1;
 
   dCT=@(r_bar)4*lam*(lam-lam_c)*r_bar;
@@ -42,16 +35,19 @@ while (res>tol && iter<iter_max)
 
   lam_prev=lam;
   lam=lam-(f_lam)/(f_lam_prime);
+  lam=relax*lam_prev+(1-relax)*lam;
   res=abs((lam-lam_prev)/lam);
 
-  plot(iter,lam,'o')
+  %plot(iter,lam,'o')
 end
 
-if (iter==iter_max)
+if (iter==MaxIter)
   disp('Warning: Max iterations reached')
   res
   return;
 end
+
+return;
 
 % Beddoes inflow approximation
 if (mu<eps)
