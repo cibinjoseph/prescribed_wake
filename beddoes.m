@@ -6,6 +6,9 @@ clear; clc; %clf;
 
 rotor_params;
 
+% Solver parameters
+nx=40;
+
 % Mean inflow from momentum theory at hover
 poly=[1,sol*a/8,-sol*a/12*theta*(tip_cut^3-root_cut^3)/(tip_cut^2-root_cut^2)];
 lam_roots=roots(poly);
@@ -30,15 +33,14 @@ else
   return;
 end
 
-return;
-
 % Beddoes inflow approximation
 if (mu<eps)
   wake_skew=pi/2;
 else
-  wake_skew=atan(-lam/mu);   % Check this minus sign
+  wake_skew=atan(lam/mu);   % Check this minus sign
 end
 
+r_bar=linspace(root_cut,tip_cut,nx);
 psi_vec=linspace(0,2*pi,nx);
 [R_BAR,PSI]=meshgrid(r_bar,psi_vec);
 E_val=(pi/2-wake_skew)/2;
