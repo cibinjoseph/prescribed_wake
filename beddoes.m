@@ -66,15 +66,15 @@ x_tip=cos(psi_b-psi_w)+mu*psi_w;
 y_tip=sin(psi_b-psi_w);
 z_tip=-mu*tan(alf_disk)*psi_w;
 
-% for i=1:length(psi_w)
-%   if (x_tip(i)<-cos(psi_b-psi_w))
-%     z_tip(i)=z_tip(i)-lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-abs(y_tip(i)^3))*psi_w(i);
-%   elseif (cos(psi_b-psi_w(i))>0)
-%     z_tip(i)=z_tip(i)-2*lam*(1-E_val*abs(y_tip(i)^3))*psi_w(i);
-%   else
-%     z_tip(i)=z_tip(i)-2*lam*x_tip(i)*(1-E_val*abs(y_tip(i)^3))/mu;
-%   end
-% end
+for i=1:length(psi_w)
+  if (x_tip(i)<-cos(psi_b-psi_w))
+    z_tip(i)=z_tip(i)-lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-abs(y_tip(i)^3))*psi_w(i);
+  elseif (cos(psi_b-psi_w(i))>0)
+    z_tip(i)=z_tip(i)-2*lam*(1-E_val*abs(y_tip(i)^3))*psi_w(i);
+  else
+    z_tip(i)=z_tip(i)-2*lam*x_tip(i)*(1-E_val*abs(y_tip(i)^3))/mu;
+  end
+end
 
 plot_wake(x_tip,y_tip,z_tip,x_tip,y_tip,z_tip,1);
 hold on
