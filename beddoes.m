@@ -2,7 +2,7 @@
 % Assumptions
 % 1. No climb velocity
 
-clear; clc; %clf;
+clear; clc; clf;
 
 rotor_params;
 
@@ -48,18 +48,35 @@ X_BAR=R_BAR.*cos(PSI);
 Y_BAR=R_BAR.*sin(PSI);
 
 lam_beddoes=lam*(1+E_val*X_BAR-E_val*abs(Y_BAR.^3));
-surf(X_BAR,Y_BAR,lam_beddoes);
-xlabel('X');
-ylabel('Y');
-grid on;
-
-return;
+% surf(X_BAR,Y_BAR,lam_beddoes);
+% xlabel('X');
+% ylabel('Y');
+% grid on;
 
 % Wake markers
-nrev=2;
-nfil=100;
-psi=linspace(0,nrev*2*pi,nfil);
+nrev=10;
+dpsi_w=5*pi/180;
 
-xw=R*cos(psi);
-yw=R*sin(psi);
-zw=mean(lam)*R*psi;
+psi_b=nrev*(2*pi);
+nw=ceil(psi_b/(dpsi_w));
+
+psi_w=linspace(0,psi_b,nw);
+
+x_tip=cos(psi_b-psi_w)+mu*psi_w;
+y_tip=sin(psi_b-psi_w);
+z_tip=-mu*tan(alf_disk)*psi_w;
+
+% for i=1:length(psi_w)
+%   if (x_tip(i)<-cos(psi_b-psi_w))
+%     z_tip(i)=z_tip(i)-lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-abs(y_tip(i)^3))*psi_w(i);
+%   elseif (cos(psi_b-psi_w(i))>0)
+%     z_tip(i)=z_tip(i)-2*lam*(1-E_val*abs(y_tip(i)^3))*psi_w(i);
+%   else
+%     z_tip(i)=z_tip(i)-2*lam*x_tip(i)*(1-E_val*abs(y_tip(i)^3))/mu;
+%   end
+% end
+
+plot_wake(x_tip,y_tip,z_tip,x_tip,y_tip,z_tip,1);
+hold on
+plot3(x_tip(1),y_tip(1),z_tip(1),'ro')
+axis equal
