@@ -1,8 +1,11 @@
 clear; clc; clf;
 
 % Parameters
-nw=100;
-psi_b=2*pi;
+nrev=4;
+dpsi_w=5*pi/180;
+
+psi_b=nrev*(2*pi);
+nw=ceil(psi_b/(dpsi_w));
 CT=0.0045;
 Nb=2;
 sol=0.02;
@@ -20,14 +23,16 @@ r_tip=A+(1-A)*exp(-LAMBDA*psi_w);
 z_tip=zeros(size(psi_w));
 
 for i=1:length(psi_w)
-  if (psi_w<=2*pi/Nb)
-    ztip(i)=k1*psi_w(i);
+  if (psi_w(i)<=2*pi/Nb)
+    z_tip(i)=k1*psi_w(i);
   else
-    ztip(i)=k1*(2*pi/Nb)+k2*(psi_w(i)-2*pi/Nb);
+    z_tip(i)=k1*(2*pi/Nb)+k2*(psi_w(i)-2*pi/Nb);
   end
 end
 
 x_tip=r_tip.*cos(psi_b-psi_w);
 y_tip=r_tip.*sin(psi_b-psi_w);
 
-plot3(x_tip,y_tip,z_tip,'o-')
+plot3(x_tip,y_tip,z_tip,'-')
+grid on
+axis vis3d
