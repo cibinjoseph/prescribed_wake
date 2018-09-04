@@ -25,8 +25,8 @@ switch option
 end
 
 grid on;
-axis vis3d;
-xlabel('X');
-ylabel('Y');
+axis vis3d equal;
+xlabel('X/R');
+ylabel('Y/R');
 
 return;
