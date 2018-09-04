@@ -77,6 +77,3 @@ for i=1:length(psi_w)
 end
 
 plot_wake(x_tip,y_tip,z_tip,x_tip,y_tip,z_tip,1);
-hold on
-plot3(x_tip(1),y_tip(1),z_tip(1),'ro')
-axis equal
