@@ -56,22 +56,25 @@ lam_beddoes=lam*(1+E_val*X_BAR-E_val*abs(Y_BAR.^3));
 % Wake markers
 nrev=10;
 dpsi_w=5*pi/180;
+r_tip=0.85;
 
 psi_b=nrev*(2*pi);
 nw=ceil(psi_b/(dpsi_w));
 
 psi_w=linspace(0,psi_b,nw);
 
-x_tip=cos(psi_b-psi_w)+mu*psi_w;
-y_tip=sin(psi_b-psi_w);
+x_tip=r_tip*cos(psi_b-psi_w)+mu*psi_w;
+y_tip=r_tip*sin(psi_b-psi_w);
 z_tip=-mu*tan(alf_disk)*psi_w;
 
 for i=1:length(psi_w)
-  if (x_tip(i)<-cos(psi_b-psi_w))
+  if (x_tip(i)<cos(psi_b-psi_w))  % check this region
     z_tip(i)=z_tip(i)-lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-abs(y_tip(i)^3))*psi_w(i);
-  elseif (cos(psi_b-psi_w(i))>0)
+%     hold on;
+%     plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
+  elseif (cos(psi_b-psi_w(i))>0)    % downstream region
     z_tip(i)=z_tip(i)-2*lam*(1-E_val*abs(y_tip(i)^3))*psi_w(i);
-  else
+  else    % upstream region
     z_tip(i)=z_tip(i)-2*lam*x_tip(i)*(1-E_val*abs(y_tip(i)^3))/mu;
   end
 end
