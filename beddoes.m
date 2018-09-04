@@ -68,7 +68,8 @@ y_tip=r_tip*sin(psi_b-psi_w);
 z_tip=-mu*tan(alf_disk)*psi_w;
 
 for i=1:length(psi_w)
-  if (x_tip(i)<cos(psi_b-psi_w))  % check this region
+  if (x_tip(i)<-cos(psi_b-psi_w))  % check this region
+    disp('here')
     z_tip(i)=z_tip(i)-lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-abs(y_tip(i)^3))*psi_w(i);
 %     hold on;
 %     plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
