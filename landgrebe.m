@@ -10,6 +10,7 @@ CT=0.0045;
 Nb=2;
 sol=0.02;
 theta_twist_deg=-8;
+root_coordinate=0.2;
 
 psi_w=linspace(0,psi_b,nw);
 
@@ -43,8 +44,7 @@ end
 x_tip=r_tip.*cos(psi_b-psi_w);
 y_tip=r_tip.*sin(psi_b-psi_w);
 
-plot3(x_tip,y_tip,z_tip,'b-')
-hold on
-plot3(x_tip*0.2,y_tip*0.2,z_root,'r-')
-grid on
-axis vis3d
+x_root=x_tip*root_coordinate;
+y_root=y_tip*root_coordinate;
+
+plot_wake(x_root,y_root,z_root,x_tip,y_tip,z_tip,4);
