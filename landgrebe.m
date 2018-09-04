@@ -1,4 +1,4 @@
-clear; clc;
+clear; clc; clf;
 
 % Parameters
 nw=100;
