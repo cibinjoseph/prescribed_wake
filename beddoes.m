@@ -55,7 +55,7 @@ lam_beddoes=lam*(1+E_val*X_BAR-E_val*abs(Y_BAR.^3));
 % grid on;
 
 % Wake markers
-nrev=10;
+nrev=4;
 dpsi_w=5*pi/180;
 r_tip=0.85;
 
@@ -70,17 +70,12 @@ z_tip=-mu*tan(alf_disk)*psi_w;
 
 for i=1:length(psi_w)
   if (x_tip(i)<-r_tip*cos(psi_b-psi_w(i)))  % upstream region falling below rotor
-    z_tip(i)=z_tip(i)-2*lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu-E_val*abs(y_tip(i)^3))*psi_w(i);
-%         hold on
-%         plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
+        z_tip(i)=z_tip(i)-2*lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu-E_val*abs(y_tip(i)^3))*psi_w(i);
+%         z_tip(i)=z_tip(i)-lam*(1+E_val*(cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-abs(y_tip(i)^3)))*psi_w(i);  % Leishman
   elseif (r_tip*cos(psi_b-psi_w(i))>0)    % downstream region
     z_tip(i)=z_tip(i)-2*lam*(1-E_val*abs(y_tip(i)^3))*psi_w(i);
-%         hold on
-%         plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
   else    % upstream region
     z_tip(i)=z_tip(i)-2*lam*x_tip(i)*(1-E_val*abs(y_tip(i)^3))/mu;
-%     hold on
-%     plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
   end
 end
 
