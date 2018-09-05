@@ -47,4 +47,4 @@ y_tip=r_tip.*sin(psi_b-psi_w);
 x_root=x_tip*root_coordinate;
 y_root=y_tip*root_coordinate;
 
-plot_wake(x_root,y_root,z_root,x_tip,y_tip,z_tip,4);
+plot_wake(x_root,y_root,z_root,x_tip,y_tip,z_tip,1);

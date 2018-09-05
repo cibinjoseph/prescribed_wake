@@ -87,4 +87,4 @@ end
 plot_wake(x_tip,y_tip,z_tip,x_tip,y_tip,z_tip,1);
 %     plot(x_tip,z_tip,'b-');
 %     grid on
-% axis equal
+axis equal

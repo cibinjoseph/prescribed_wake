@@ -29,7 +29,7 @@ hold on
 line([0 x_tip(1)],[0 y_tip(1)],[0 z_tip(1)],'Color','red','LineWidth',1.5);
 
 grid on;
-axis vis3d equal;
+% axis vis3d equal;
 xlabel('X/R');
 ylabel('Y/R');
 
