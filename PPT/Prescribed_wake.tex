@@ -75,9 +75,10 @@ A=0.78, $\Lambda=0.145+27C_T$
 
 \begin{frame}[t]
 \frametitle{Beddoes generalised wake model}
-	\begin{equation}
-		\lambda_i=\lambda_o(1+E\bar{x}-E|\bar{y}^3|)
-	\end{equation}
+	\begin{align}
+		\lambda_i&=\lambda_o(1+E\bar{x}-E|\bar{y}^3|)  \quad \text{across rotor}\\
+		&=2\lambda_o(1-E|\bar{y}_{tip}^3|)  \quad \text{behind rotor}
+	\end{align}
 	\begin{align}
 		\bar{x}_{tip}&=r_v\cos\psi_v+\mu\psi_w\\
 		\bar{y}_{tip}&=r_v\sin\psi_v\\
@@ -87,7 +88,7 @@ A=0.78, $\Lambda=0.145+27C_T$
 	3 cases when evaluating integral term:\\
 	\vspace{-0.5cm}
 \begin{align*}
-if \quad \bar{x}_{tip}<-r_v\cos\psi_v&\alert{\Rightarrow}-2\lambda_o(1+E\cos\psi_v+0.5\mu-E|\bar{y}_{tip}^3|)\psi_w\\
+if \quad \bar{x}_{tip}<-r_v\cos\psi_v&\alert{\Rightarrow}-\lambda_o(1+E(\cos\psi_v+0.5\mu\psi_w-|\bar{y}_{tip}^3|))\psi_w\\
 if \quad \cos\psi_v>0&\alert{\Rightarrow}-2\lambda_o(1-E|\bar{y}_{tip}^3|)\psi_w\\
 else &\alert{\Rightarrow}-2\lambda_o\bar{x}_{tip}\frac{1-E|\bar{y}_{tip}^3|}{\mu}
 \end{align*}
