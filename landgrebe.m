@@ -4,13 +4,15 @@ clear; clc; clf;
 nrev=4;
 dpsi_w=5*pi/180;
 
+R=8;
+c=0.5;
 psi_b=nrev*(2*pi);
 nw=ceil(psi_b/(dpsi_w));
 CT=0.0045;
-Nb=2;
-sol=0.02;
+Nb=3;
+sol=Nb*c/(pi*R);
 theta_twist_deg=-8;
-root_coordinate=0.2;
+root_coordinate=0.2;  % r/R
 
 psi_w=linspace(0,psi_b,nw);
 
@@ -48,3 +50,5 @@ x_root=x_tip*root_coordinate;
 y_root=y_tip*root_coordinate;
 
 plot_wake(x_root,y_root,z_root,x_tip,y_tip,z_tip,1);
+title(['CT=',num2str(CT),',  sol=',num2str(sol)]); 
+set(gca,'FontSize',14,'fontWeight','bold');
