@@ -47,6 +47,7 @@ E_val=pi/2-wake_skew;
 X_BAR=R_BAR.*cos(PSI);
 Y_BAR=R_BAR.*sin(PSI);
 
+lam=lam-mu*tan(alf_disk);
 lam_beddoes=lam*(1+E_val*X_BAR-E_val*abs(Y_BAR.^3));
 % surf(X_BAR,Y_BAR,lam_beddoes);
 % xlabel('X');
