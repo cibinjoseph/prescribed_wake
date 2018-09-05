@@ -83,6 +83,5 @@ for i=1:length(psi_w)
 end
 
 plot_wake(x_tip,y_tip,z_tip,x_tip,y_tip,z_tip,1);
-%     plot(x_tip,z_tip,'b-');
-%     grid on
-axis equal
+title(['\mu=',num2str(mu),',   \lambda=',num2str(lam),',   \sigma=',num2str(sol)]); 
+set(gca,'FontSize',14,'fontWeight','bold');

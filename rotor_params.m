@@ -3,7 +3,7 @@ global root_cut tip_cut lam_c alf_disk theta mu sol;
 
 R = 8.0;
 c =1.0;
-Nb = 1;
+Nb = 2;
 Om_rpm = 600;            % in rpm
 a = 2*pi;                % d_Cl/d_alpha in radians
 rho = 1.2;               % in kg/m3

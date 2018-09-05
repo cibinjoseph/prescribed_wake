@@ -50,5 +50,5 @@ x_root=x_tip*root_coordinate;
 y_root=y_tip*root_coordinate;
 
 plot_wake(x_root,y_root,z_root,x_tip,y_tip,z_tip,1);
-title(['CT=',num2str(CT),',  sol=',num2str(sol)]); 
+title(['CT=',num2str(CT),',   \sigma=',num2str(sol)]); 
 set(gca,'FontSize',14,'fontWeight','bold');
