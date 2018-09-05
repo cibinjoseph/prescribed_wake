@@ -43,7 +43,7 @@ end
 r_bar=linspace(root_cut,tip_cut,nx);
 psi_vec=linspace(0,2*pi,nx);
 [R_BAR,PSI]=meshgrid(r_bar,psi_vec);
-E_val=(pi/2-wake_skew)/2;
+E_val=pi/2-wake_skew;
 X_BAR=R_BAR.*cos(PSI);
 Y_BAR=R_BAR.*sin(PSI);
 
@@ -68,16 +68,19 @@ y_tip=r_tip*sin(psi_b-psi_w);
 z_tip=-mu*tan(alf_disk)*psi_w;
 
 for i=1:length(psi_w)
-  if (x_tip(i)<-cos(psi_b-psi_w))  % check this region
-    disp('here')
-    z_tip(i)=z_tip(i)-lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-abs(y_tip(i)^3))*psi_w(i);
-%     hold on;
-%     plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
+  if (x_tip(i)<-r_tip*cos(psi_b-psi_w(i)))  % upstream region falling below rotor
+    z_tip(i)=z_tip(i)-2*lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-E_val*abs(y_tip(i)^3))*psi_w(i);
+
   elseif (cos(psi_b-psi_w(i))>0)    % downstream region
     z_tip(i)=z_tip(i)-2*lam*(1-E_val*abs(y_tip(i)^3))*psi_w(i);
   else    % upstream region
     z_tip(i)=z_tip(i)-2*lam*x_tip(i)*(1-E_val*abs(y_tip(i)^3))/mu;
+    hold on
+    plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
   end
 end
 
 plot_wake(x_tip,y_tip,z_tip,x_tip,y_tip,z_tip,1);
+%     plot(x_tip,z_tip,'b-');
+%     grid on
+    axis equal
