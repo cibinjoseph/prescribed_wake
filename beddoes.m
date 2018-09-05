@@ -69,18 +69,21 @@ z_tip=-mu*tan(alf_disk)*psi_w;
 
 for i=1:length(psi_w)
   if (x_tip(i)<-r_tip*cos(psi_b-psi_w(i)))  % upstream region falling below rotor
-    z_tip(i)=z_tip(i)-2*lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu*psi_w(i)-E_val*abs(y_tip(i)^3))*psi_w(i);
-
-  elseif (cos(psi_b-psi_w(i))>0)    % downstream region
+    z_tip(i)=z_tip(i)-2*lam*(1+E_val*cos(psi_b-psi_w(i))+0.5*mu-E_val*abs(y_tip(i)^3))*psi_w(i);
+%         hold on
+%         plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
+  elseif (r_tip*cos(psi_b-psi_w(i))>0)    % downstream region
     z_tip(i)=z_tip(i)-2*lam*(1-E_val*abs(y_tip(i)^3))*psi_w(i);
+%         hold on
+%         plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
   else    % upstream region
     z_tip(i)=z_tip(i)-2*lam*x_tip(i)*(1-E_val*abs(y_tip(i)^3))/mu;
-    hold on
-    plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
+%     hold on
+%     plot3(x_tip(i),y_tip(i),z_tip(i),'ro')
   end
 end
 
 plot_wake(x_tip,y_tip,z_tip,x_tip,y_tip,z_tip,1);
 %     plot(x_tip,z_tip,'b-');
 %     grid on
-    axis equal
+% axis equal
